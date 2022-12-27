@@ -16,6 +16,10 @@
     if(registerData)
     alert(JSON.stringify(registerData));
   }
+
+  function onUpdate(event){
+    console.log(event);
+  }
 </script>
 
 <div class="hero min-h-screen bg-base-200">
@@ -39,7 +43,7 @@
             <label for="password" class="label">
               <span class="label-text">Password</span>
             </label>
-            <input type="password" placeholder="Enter your password" class="input input-bordered" name="password" bind:value={registerData.password}/>
+            <input required type="password" placeholder="Enter your password" class="input input-bordered" name="password" bind:value={registerData.password}/>
           </div>
           
           <div class="form-control">
