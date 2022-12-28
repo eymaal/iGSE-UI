@@ -36,7 +36,7 @@
             <label for="email" class="label">
               <span class="label-text">Email</span>
             </label>
-            <input required type="text" placeholder="Enter your email address" class="input input-bordered required:border-red-500" name="email" bind:value={registerData.email}/>
+            <input required type="email" placeholder="Enter your email address" class="input input-bordered required:border-red-500" name="email" bind:value={registerData.email}/>
           </div>
 
           <div class="form-control">
