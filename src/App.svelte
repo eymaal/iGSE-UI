@@ -4,6 +4,7 @@
   import Dashboard from './pages/Dashboard/Dashboard.svelte';
   import Registration from './pages/Login-Signup/Registration.svelte';
   import NewReading from './pages/Dashboard/NewReading.svelte';
+  import Recharge from './pages/Dashboard/Recharge.svelte';
 
   const routes = {
     '/': Login,
@@ -11,6 +12,7 @@
     '/registration': Registration,
     '/dashboard': Dashboard,
     '/addReading': NewReading,
+    '/recharge': Recharge,
 
     '*': Login,
   }
