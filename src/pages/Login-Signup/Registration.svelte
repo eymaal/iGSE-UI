@@ -73,6 +73,7 @@
     <div class="text-center lg:text-left">
       <h1 class="text-5xl font-bold">Get Started!</h1>
       <p class="py-6">Enter your details and become a part of the Great Shangri-La Energy Company!</p>
+      <a href="#/login" class="label-text-alt link link-hover">Already Registered? Click to Log in.</a>
     </div>
 
     <Form id="registration" class="contents form" {schema} fields={customer} submitHandler={register} {submitted} color="hsl(var(--er))">

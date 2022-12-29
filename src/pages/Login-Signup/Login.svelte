@@ -30,10 +30,6 @@
               <span class="label-text">Password</span>
             </label>
             <input type="password" placeholder="password" class="input input-bordered" name="password" bind:value={password}/>
-            <label for="forget-password" class="label">
-              <!-- svelte-ignore a11y-invalid-attribute -->
-              <a href="#" class="label-text-alt link link-hover">Forgot password?</a>
-            </label>
           </div>
           <div class="form-control">
             <label for="registration" class="label justify-end">
