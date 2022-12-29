@@ -1,22 +1,55 @@
 <script>
-    import { onMount } from 'svelte';
     import {pop} from 'svelte-spa-router';
+    import Messages from '../../util/Messages.svelte';
+
+    let msg={
+        content: "",
+        type: "",
+        action: "",
+        path: ""
+    }
 
     let date = new Date();
     let today = date.getFullYear().toString().padStart(4, '0') + '-' + (date.getMonth()+1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
-    let readingDate = today;
-    // readingDate.nodeValue=new Date();
-    let dayReading, nightReading, gasReading;
 
-    // onMount(() => {readingDate = new Date();})
     const newReading = document.querySelector('#newReading');
+    let reading = {
+        customer_id: "we@shangrila.gov.un",
+        submission_date: today,
+        elec_readings_day: "",
+        elec_readings_night: "",
+        gas_reading: ""
+    };
 
-    function addReading(){
-        alert(readingDate);
+    async function addReading(){
+        const res = await fetch('http://localhost:8080/iGSE/addReading',{
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(reading)
+        })
+        .then((response) => {
+            if(!response.ok){
+                msg.type = "alert-error";
+            } else{
+                msg.type = "alert-success";
+                msg.content = "Reading has been submitted";
+                msg.path = "/dashboard";
+            }
+            return response.json();          
+        })
+        .then((message) => {
+            if(msg.type=="alert-error"){
+                msg.content=message.message;          
+                console.log(message);
+            }
+        });
     }
 
 </script>
 
+<Messages {...msg}/>
 <div class="h-screen w-screen bg-base-200 place-content-center flex">
     <div class="hero-content flex-col lg:flex-row-reverse w-full">
         <button class="btn btn-circle btn-outline btn-md" on:click={()=> pop()}>
@@ -30,7 +63,7 @@
                         <label for="readingDate" class="label">
                         <span class="label-text">Enter reading date</span>
                         </label>
-                        <input required type="date" bind:value={readingDate} class="input input-bordered" id="readingDate"/>
+                        <input required type="date" bind:value={reading.submission_date} class="input input-bordered" id="readingDate"/>
                     </div>
 
                     <div class="form-control">
@@ -38,7 +71,7 @@
                         <span class="label-text">Enter Electricity reading - day</span>
                         </label>
                         <label class="input-group">
-                        <input type="number" bind:value={dayReading} class="input input-bordered grow" placeholder="Enter Day time Units" min=0/>
+                        <input type="number" bind:value={reading.elec_readings_day} class="input input-bordered grow" placeholder="Enter Day time Units" min=0/>
                         <span class="bg-neutral-content">kWh</span>
                         </label>
                     </div>
@@ -48,7 +81,7 @@
                         <span class="label-text">Enter Electricity reading - night</span>
                         </label>
                         <label class="input-group">
-                        <input type="number" bind:value={nightReading} class="input input-bordered grow" placeholder="Enter Night time Units" min=0/>
+                        <input type="number" bind:value={reading.elec_readings_night} class="input input-bordered grow" placeholder="Enter Night time Units" min=0/>
                         <span class="bg-neutral-content">kWh</span>
                         </label>
                     </div>
@@ -58,7 +91,7 @@
                         <span class="label-text">Enter Gas meter reading</span>
                         </label>
                         <label class="input-group">
-                        <input type="number" bind:value={gasReading} class="input input-bordered grow" placeholder="Enter Gas Units" min=0/>
+                        <input type="number" bind:value={reading.gas_reading} class="input input-bordered grow" placeholder="Enter Gas Units" min=0/>
                         <span class="bg-neutral-content">kWh</span>
                         </label>
                     </div>

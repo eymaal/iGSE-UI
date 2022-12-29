@@ -2,6 +2,28 @@
     import Navbar from '../Navbar.svelte';
     import icon from '../../assets/oil-drill.svg';
     import {push} from 'svelte-spa-router';
+    import {onMount, onDestroy} from 'svelte';
+
+    // onMount(() => {alert("OnMount")});
+    // onDestroy(() => {alert("OnDestroy")});
+    onMount(async () => {
+      const res = await fetch('http://localhost:8080/iGSE/fetchReadings?customer_id='+"we@shangrila.gov.un",{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((response) => {
+        
+        if(!response.ok){
+          //fail case
+          return response.json();          
+        } else{
+          let result = JSON.stringify(response);
+          return response.json();
+          
+        }})
+    })
 
     let actions = [
       {
@@ -35,6 +57,28 @@
       </div>
     </div>
   {/each}
+
+  <div class="overflow-x-auto span-all-columns w-full flex justify-center">
+    <table class="table w-full">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Job</th>
+          <th>Favorite Color</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hover">
+          <th>1</th>
+          <td>Cy Ganderton</td>
+          <td>Quality Control Specialist</td>
+          <td>Blue</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 
@@ -72,5 +116,12 @@
     }
     .card:hover{
       color: hsl(var(--p)) !important;
+    }
+
+    .span-all-columns{
+      grid-column: 1/-1;
+    }
+    .span-all-columns > table{
+      width: calc(0.95 * 100vh);
     }
   </style>

@@ -2,8 +2,14 @@
   
   import * as yup from 'yup';
   import {Form, Message, isInvalid} from 'svelte-yup';
+  import Messages from '../../util/Messages.svelte';
   
-  let result = null;
+  let messages={
+    content: "",
+    type: "",
+    action: "",
+    path: ""
+  }
   let schema = yup.object().shape({
     customer_id: yup.string().required().email().label("Email Address"),
     password_hash: yup.string().required().label("Password"),
@@ -37,14 +43,23 @@
       .then((response) => {
         
         if(!response.ok){
-          //fail case
+          messages.type = "alert-error";
           return response.json();          
         } else{
-          result = JSON.stringify(response);
-          return response.json();
-          
-        }}).then((message) => console.log(message))
-      .catch(() => alert("Request cannot be sent"));
+          messages.type = "alert-success";
+          messages.content = "Registration Successful! Click here to log in.";
+          messages.path = "/login";
+          return response.json();          
+        }}).then((message) => {
+          if(messages.type=="alert-error"){
+            messages.content=message.message;          
+            console.log(message);
+          }
+        })
+      .catch(() => {
+        messages.type = "alert-error";
+        messages.content = "Request cannot be sent";
+      });
 
     }
   }
@@ -68,6 +83,7 @@
 
 </script>
 
+<Messages {...messages}/>
 <div class="hero min-h-screen bg-base-200">
   <div class="hero-content flex-col lg:flex-col">
     <div class="text-center lg:text-left">
