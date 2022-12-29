@@ -18,9 +18,7 @@
     property_type: "",
     address: "",
     bedroom_num: 0,
-    EVC_code: "",
-    type: "user",
-    balance: 200
+    EVC_code: ""
   }
 
   let submitted = false;
@@ -29,7 +27,7 @@
     submitted = true;
     isValid = schema.isValidSync(customer);
     if(isValid){
-      const res = await fetch('http://localhost:8080/iGSE/register',{
+      const res = await fetch('http://localhost:8080/iGSE/register?evcCode='+customer.EVC_code,{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
