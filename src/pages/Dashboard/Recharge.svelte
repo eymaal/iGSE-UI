@@ -1,6 +1,7 @@
 <script>
-    import { Html5Qrcode } from 'html5-qrcode'
-    import { onMount } from 'svelte'
+    import { Html5Qrcode } from 'html5-qrcode';
+    import { onMount } from 'svelte';
+    import { pop } from 'svelte-spa-router';
 
     let scanning = false
 
@@ -61,16 +62,19 @@
 
 <div class="hero min-h-screen bg-base-200">
     <div class="hero-content flex-col lg:flex-row-reverse gap-3 p-8 w-full">
-      <!-- svelte-ignore a11y-media-has-caption -->
-      <reader id="reader" class="flex justify-center"/>
+        <button class="btn btn-circle btn-outline btn-md" on:click={()=> pop()}>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>   
+        <!-- svelte-ignore a11y-media-has-caption -->
+        <reader id="reader" class="flex justify-center"/>
         {#if scanning}
             <button class="btn btn-primary" on:click={stop}>stop</button>
         {:else}
             <button class="btn btn-primary" on:click={start}>start</button>
         {/if}
-      <div>
-        <h1 class="text-3xl font-bold">Recharge</h1>
-        <p class="py-6">Scan the QR Code on your E-voucher</p>
-      </div>
+        <div>
+            <h1 class="text-3xl font-bold">Recharge</h1>
+            <p class="py-6">Scan the QR Code on your E-voucher</p>
+        </div>
     </div>
 </div>

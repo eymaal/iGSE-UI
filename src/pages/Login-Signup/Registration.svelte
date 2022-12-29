@@ -38,7 +38,7 @@
         
         if(!response.ok){
           //fail case
-          return response.text();          
+          return response.json();          
         } else{
           result = JSON.stringify(response);
           return response.json();

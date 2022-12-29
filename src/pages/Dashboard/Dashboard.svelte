@@ -1,10 +1,41 @@
 <script>
     import Navbar from '../Navbar.svelte';
     import icon from '../../assets/oil-drill.svg';
+    import {push} from 'svelte-spa-router';
+
+    let actions = [
+      {
+        title: "Add Reading",
+        description: "Click here to add new meter readings.",
+        path: "/addReading"
+      },
+      {
+        title: "Topup Balance",
+        description: "Add Energy Code Vouchers to account..",
+        path: "/recharge"
+      },
+      {
+        title: "Pay Bills",
+        description: "Pay your unpaid bills",
+        path: "/dashboard"
+      }
+    ]
 
 </script> 
 
 <Navbar/>
+
+<div id="dash-container" class="w-full h-auto bg-base-200 p-2 grid place-items-center">
+  {#each actions as action}
+    <div class="card w-96 bg-base-100 shadow-xl cursor-pointer">
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <div class="card-body" on:click={()=> push(action.path)}>
+        <h2 class="card-title">{action.title}</h2>
+        <p>{action.description}</p>
+      </div>
+    </div>
+  {/each}
+</div>
 
 
 <footer class="footer footer-center p-10 bg-primary text-primary-content">
@@ -31,3 +62,15 @@
       </div>
     </div>
   </footer>
+
+
+  <style>
+    #dash-container{
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      min-height: calc(100vh - 278px - 64px);
+    }
+    .card:hover{
+      color: hsl(var(--p)) !important;
+    }
+  </style>
