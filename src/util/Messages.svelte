@@ -9,19 +9,19 @@
     export let path;
 
     let closeAlert = () => {
-        resetMessage();
-        if(path.length>0){
-            setTimeout(() => {
-                push(path);
-            }, 1500);
-        }
+      if(path.length>0){
+          setTimeout(() => {
+              push(path);
+              path = "";
+          }, 1000);
+      }
+      resetMessage();
     };
 
     let resetMessage = () => {
       content = "";
       type = "";
       action = "";
-      path = "";
     }
     
 </script>
