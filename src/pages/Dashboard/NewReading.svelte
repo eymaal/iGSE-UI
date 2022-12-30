@@ -1,6 +1,6 @@
 <script>
     import {pop} from 'svelte-spa-router';
-    import Messages from '../../util/Messages.svelte';
+    import Messagestore from '../../MessageStore';
 
     let msg={
         content: "",
@@ -44,12 +44,16 @@
                 msg.content=message.message;          
                 console.log(message);
             }
-        });
+        })
+        .finally(() =>{
+            Messagestore.update(currentMsg => {
+                return msg;
+            })
+        })
     }
 
 </script>
 
-<Messages {...msg}/>
 <div class="h-screen w-screen bg-base-200 place-content-center flex">
     <div class="hero-content flex-col lg:flex-column w-full">
         <button class="btn btn-circle btn-outline btn-md" on:click={()=> pop()}>

@@ -1,7 +1,6 @@
 <script>
     import { push } from 'svelte-spa-router';
     import { fly } from 'svelte/transition';
-
     
     export let content;
     export let type;
@@ -48,7 +47,7 @@
 {/if}
 
 <style>
-    #notification > .alert{
-      width: calc(100vw - 32px);
-    }
+  #notification > .alert{
+    width: calc(100vw - 32px);
+  }
 </style>

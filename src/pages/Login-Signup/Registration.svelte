@@ -1,4 +1,6 @@
 <script>
+// @ts-nocheck
+
   
   import * as yup from 'yup';
   import { Form, Message, isInvalid } from 'svelte-yup';
@@ -90,7 +92,6 @@
 
 </script>
 
-<!-- <Messages {...messages}/> -->
 <div class="hero min-h-screen bg-base-200">
   <div class="hero-content flex-col lg:flex-col">
     <div class="text-center lg:text-left">
