@@ -1,9 +1,9 @@
 <script>
   
   import * as yup from 'yup';
-  import {Form, Message, isInvalid} from 'svelte-yup';
-  import Messages from '../../util/Messages.svelte';
-    import { push } from 'svelte-spa-router';
+  import { Form, Message, isInvalid } from 'svelte-yup';
+  import { push } from 'svelte-spa-router';
+  import Messagestore from '../../MessageStore';
   
   let messages={
     content: "",
@@ -11,6 +11,7 @@
     action: "",
     path: ""
   }
+
   let schema = yup.object().shape({
     customer_id: yup.string().required().email().label("Email Address"),
     password_hash: yup.string().required().label("Password"),
@@ -19,6 +20,7 @@
     bedroom_num: yup.number().required().min(1).label("Number of Bedrooms").nullable(true).transform((v, o) => o === '' ? null : v),
     EVC_code: yup.string().required().length(8).label("Energy Voucher Code")
   });
+
   let customer = {
     customer_id: "",
     password_hash: "",
@@ -53,14 +55,18 @@
           return response.json();          
         }}).then((message) => {
           if(messages.type=="alert-error"){
-            messages.content=message.message;          
-            console.log(message);
+            messages.content=message.message;            
           }
         })
       .catch(() => {
         messages.type = "alert-error";
         messages.content = "Request cannot be sent";
-      });
+      })
+      .finally(() => {
+        Messagestore.update(currentMessage => {
+          return messages;
+        });
+      })
 
     }
   }
@@ -84,7 +90,7 @@
 
 </script>
 
-<Messages {...messages}/>
+<!-- <Messages {...messages}/> -->
 <div class="hero min-h-screen bg-base-200">
   <div class="hero-content flex-col lg:flex-col">
     <div class="text-center lg:text-left">
