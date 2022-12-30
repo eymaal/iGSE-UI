@@ -71,7 +71,7 @@
                         <span class="label-text">Enter Electricity reading - day</span>
                         </label>
                         <label class="input-group">
-                        <input type="number" bind:value={reading.elec_readings_day} class="input input-bordered grow" placeholder="Enter Day time Units" min=0/>
+                        <input type="number" bind:value={reading.elec_readings_day} class="input input-bordered grow" placeholder="Enter Day time Units" min=0 required/>
                         <span class="bg-neutral-content">kWh</span>
                         </label>
                     </div>
@@ -81,7 +81,7 @@
                         <span class="label-text">Enter Electricity reading - night</span>
                         </label>
                         <label class="input-group">
-                        <input type="number" bind:value={reading.elec_readings_night} class="input input-bordered grow" placeholder="Enter Night time Units" min=0/>
+                        <input type="number" bind:value={reading.elec_readings_night} class="input input-bordered grow" placeholder="Enter Night time Units" min=0 required/>
                         <span class="bg-neutral-content">kWh</span>
                         </label>
                     </div>
@@ -91,7 +91,7 @@
                         <span class="label-text">Enter Gas meter reading</span>
                         </label>
                         <label class="input-group">
-                        <input type="number" bind:value={reading.gas_reading} class="input input-bordered grow" placeholder="Enter Gas Units" min=0/>
+                        <input type="number" bind:value={reading.gas_reading} class="input input-bordered grow" placeholder="Enter Gas Units" min=0 required/>
                         <span class="bg-neutral-content">kWh</span>
                         </label>
                     </div>

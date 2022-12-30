@@ -4,25 +4,29 @@
     import {push} from 'svelte-spa-router';
     import {onMount, onDestroy} from 'svelte';
 
-    // onMount(() => {alert("OnMount")});
-    // onDestroy(() => {alert("OnDestroy")});
+    let readings = [];
     onMount(async () => {
-      const res = await fetch('http://localhost:8080/iGSE/fetchReadings?customer_id='+"we@shangrila.gov.un",{
-        method: 'GET',
+      const res = await fetch('http://localhost:8080/iGSE/getReadings',{
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({customer_id: "we@shangrila.gov.un"})
       })
       .then((response) => {
         
         if(!response.ok){
           //fail case
+          readings = [];
           return response.json();          
         } else{
-          let result = JSON.stringify(response);
           return response.json();
-          
-        }})
+      }})
+      .then((result) => {
+        readings = result;
+        console.log(readings);
+      })
+
     })
 
     let actions = [
@@ -33,12 +37,12 @@
       },
       {
         title: "Topup Balance",
-        description: "Add Energy Code Vouchers to account..",
+        description: "Add Energy Code Vouchers to account.",
         path: "/recharge"
       },
       {
         title: "Pay Bills",
-        description: "Pay your unpaid bills",
+        description: "Pay your unpaid bills.",
         path: "/dashboard"
       }
     ]
@@ -47,9 +51,9 @@
 
 <Navbar/>
 
-<div id="dash-container" class="w-full h-auto bg-base-200 p-2 grid place-items-center">
+<div id="dash-container" class="w-full h-auto bg-base-200 p-2 grid place-items-center pb-4">
   {#each actions as action}
-    <div class="card w-96 bg-base-100 shadow-xl cursor-pointer">
+    <div class="card card-compact w-80 bg-base-100 shadow-xl cursor-pointer">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <div class="card-body" on:click={()=> push(action.path)}>
         <h2 class="card-title">{action.title}</h2>
@@ -58,27 +62,35 @@
     </div>
   {/each}
 
-  <div class="overflow-x-auto span-all-columns w-full flex justify-center">
-    <table class="table w-full">
-      <!-- head -->
-      <thead>
-        <tr>
-          <th></th>
-          <th>Name</th>
-          <th>Job</th>
-          <th>Favorite Color</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="hover">
-          <th>1</th>
-          <td>Cy Ganderton</td>
-          <td>Quality Control Specialist</td>
-          <td>Blue</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  {#if readings.length>0}
+    <div class="overflow-x-auto span-all-columns w-full flex justify-center">
+      <table class="table table-compact w-full">
+        <!-- head -->
+        <thead>
+          <tr>
+            <th></th>
+            <th>Submission</th>
+            <th>⚡Day Units</th>
+            <th>⚡Night Units</th>
+            <th>Gas Units</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each readings as reading, index }  
+            <tr class="hover">
+              <th>{index+1}</th>
+              <td>{reading.submission_date.slice(0,10)}</td>
+              <td>{reading.elec_readings_day}</td>
+              <td>{reading.elec_readings_night}</td>
+              <td>{reading.gas_reading}</td>
+              <td>{reading.status}</td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  {/if}
 </div>
 
 
@@ -123,5 +135,10 @@
     }
     .span-all-columns > table{
       width: calc(0.95 * 100vh);
+    }
+
+    .table thead th{
+      @apply bg-primary;
+      color: hsl(var(--b1));
     }
   </style>
