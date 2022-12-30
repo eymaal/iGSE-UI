@@ -1,7 +1,5 @@
 <script>
 // @ts-nocheck
-
-  
   import * as yup from 'yup';
   import { Form, Message, isInvalid } from 'svelte-yup';
   import { push } from 'svelte-spa-router';
@@ -173,10 +171,10 @@
 </div>
 
 <style>
-    .invalid {
-      @apply input-error;
-    }
-    .invalid {
-      @apply p-4; 
-    }
+  .invalid {
+    @apply input-error;
+  }
+  .invalid {
+    @apply p-4; 
+  }
 </style>

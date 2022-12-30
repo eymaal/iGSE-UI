@@ -1,27 +1,27 @@
 <script>
-    import { push } from 'svelte-spa-router';
-    import { fly } from 'svelte/transition';
-    
-    export let content;
-    export let type;
-    export let action;
-    export let path;
+  import { push } from 'svelte-spa-router';
+  import { fly } from 'svelte/transition';
+  
+  export let content;
+  export let type;
+  export let action;
+  export let path;
 
-    let closeAlert = () => {
-      if(path.length>0){
-          setTimeout(() => {
-              push(path);
-              path = "";
-          }, 1000);
-      }
-      resetMessage();
-    };
-
-    let resetMessage = () => {
-      content = "";
-      type = "";
-      action = "";
+  let closeAlert = () => {
+    if(path.length>0){
+        setTimeout(() => {
+            push(path);
+            path = "";
+        }, 1000);
     }
+    resetMessage();
+  };
+
+  let resetMessage = () => {
+    content = "";
+    type = "";
+    action = "";
+  }
     
 </script>
 
