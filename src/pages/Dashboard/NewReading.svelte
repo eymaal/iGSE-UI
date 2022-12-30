@@ -51,7 +51,7 @@
 
 <Messages {...msg}/>
 <div class="h-screen w-screen bg-base-200 place-content-center flex">
-    <div class="hero-content flex-col lg:flex-row-reverse w-full">
+    <div class="hero-content flex-col lg:flex-column w-full">
         <button class="btn btn-circle btn-outline btn-md" on:click={()=> pop()}>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
