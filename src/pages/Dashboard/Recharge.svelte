@@ -58,19 +58,22 @@
 </style>
 
 <div class="hero min-h-screen bg-base-200">
-    <div class="hero-content flex-col lg:flex-row-reverse gap-3 p-8 w-full">
-        <button class="btn btn-circle btn-outline btn-md" on:click={close}>
+    <div class="hero-content flex-col lg:flex-row-reverse gap-3 p-8 w-full max-w-4xl">
+        <button class="btn btn-circle btn-outline btn-md lg:hidden" on:click={close}>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
         </button>   
         <!-- svelte-ignore a11y-media-has-caption -->
         <reader id="reader" class="flex justify-center"/>
-        <div>
+        <div class = "hero-content flex flex-col">
+            <button class="btn btn-circle btn-outline btn-md hidden lg:flex" on:click={close}>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button> 
             {#if scanning}
                 <button class="btn btn-primary" on:click={stop}>Stop Scanning</button>
             {:else}
                 <button class="btn btn-primary" on:click={start}>Start Scanning</button>
             {/if}
-            <div>
+            <div class = "w-max flex items-center flex-col">
                 <h1 class="text-3xl font-bold">Recharge</h1>
                 <p class="py-6">Scan the QR Code on your E-voucher</p>
             </div>
