@@ -6,6 +6,7 @@
   import NewReading from './pages/Dashboard/NewReading.svelte';
   import Recharge from './pages/Dashboard/Recharge.svelte';
   import Messages from './util/Messages.svelte';
+  import ErrorPage from './pages/404.svelte';
   import MessageStore from './MessageStore';
 
   const routes = {
@@ -16,7 +17,7 @@
     '/addReading': NewReading,
     '/recharge': Recharge,
 
-    '*': Login,
+    '*': ErrorPage,
   }
 
   export let message ={

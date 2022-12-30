@@ -77,7 +77,7 @@
             </label>
           </div>
           <div class="form-control">
-            <button on:click={login} class="btn btn-primary">Login</button>
+            <button on:click|stopPropagation={login} class="btn btn-primary">Login</button>
           </div>
         </div>
       </div>

@@ -4,13 +4,18 @@
   import { onMount } from 'svelte';
 
   let readings = [];
-  onMount(async () => {
+  let customer_id;
+  if(localStorage.getItem('customer')){
+    customer_id = JSON.parse(localStorage.getItem('customer')).customer_id;
+  }
+
+  async function fetchReading() {
     const res = await fetch('http://localhost:8080/iGSE/getReadings',{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({customer_id: "we@shangrila.gov.un"})
+      body: JSON.stringify({customer_id : customer_id})
     })
     .then((response) => {
       
@@ -23,7 +28,9 @@
     .then((result) => {
       readings = result;
     })
-
+  }
+  onMount(async () => {
+    fetchReading();    
   })
 
   let actions = [

@@ -32,7 +32,9 @@
     }
 
     function close() {
-        stop();
+        if(scanning){
+            stop();
+        }
         pop();
     }
 

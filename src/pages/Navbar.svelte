@@ -60,7 +60,9 @@
         <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
         <ul tabindex="0" class="lg:menu-normal menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
           <!-- svelte-ignore a11y-invalid-attribute -->
-          <li><a href = "" on:click={logout}>Log out</a></li>
+          <!-- svelte-ignore a11y-click-events-have-key-events -->
+          <!-- svelte-ignore a11y-missing-attribute -->
+          <li><a on:click={logout}>Log out</a></li>
         </ul>
       </div>
       
