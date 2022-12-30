@@ -1,6 +1,7 @@
 <script>
   
   import { onMount } from 'svelte'
+    import { push } from 'svelte-spa-router';
   import { themeChange } from 'theme-change'
 
   // NOTE: the element that is using one of the theme attributes must be in the DOM on mount
@@ -9,6 +10,14 @@
   })
   
   let theme;
+  let logout = () => {
+    if(localStorage.getItem('customer')){
+      localStorage.setItem('lastLogin', JSON.parse(localStorage.getItem('customer')).customer_id);
+      localStorage.removeItem('customer');
+    }
+    push('/login');    
+  }
+
 </script>
 <div class="navbar bg-base-100">
     <div class="navbar-start">
@@ -50,7 +59,8 @@
         
         <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
         <ul tabindex="0" class="lg:menu-normal menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-          <li><a href="/#/login">Log out</a></li>
+          <!-- svelte-ignore a11y-invalid-attribute -->
+          <li><a href = "" on:click={logout}>Log out</a></li>
         </ul>
       </div>
       

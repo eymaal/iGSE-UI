@@ -51,8 +51,7 @@
         } else{
           messages.type = "alert-success";
           messages.content = "Registration Successful! Click here to log in.";
-          messages.path = "/login";
-          return response.json();          
+          messages.path = "/login";       
         }}).then((message) => {
           if(messages.type=="alert-error"){
             messages.content=message.message;            
@@ -153,14 +152,13 @@
             </label>
             <div class="input-group">
               <input type="text" placeholder="Enter 8 digit code" class="input input-bordered flex-grow" id="EVC_code" bind:value={customer.EVC_code} class:invalid={invalid("EVC_code")}/>
-              <button class="btn btn-square" on:click|stopPropagation={() => {push("/recharge")}}>
+              <button class="btn btn-square" on:click|stopPropagation|preventDefault={() => {push("/recharge")}}>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 64 64" stroke="currentColor" stroke-width="4"><g id="SVGRepo_bgCarrier" stroke-width="3.17"></g><g id="SVGRepo_iconCarrier"><path d="M54.1,50.13H9.9a2,2,0,0,1-2-2V21.87c0-1.11.89-1,2-1h7.54a1,1,0,0,0,.76-.35l4.1-5.95a2,2,0,0,1,1.52-.7H40a2,2,0,0,1,1.51.7l4.11,5.95a1,1,0,0,0,.76.35H54.1c1.11,0,2-.11,2,1V48.13A2,2,0,0,1,54.1,50.13Z"></path><circle cx="32" cy="34" r="10.05"></circle></g></svg>
               </button>
             </div>
             <Message name="EVC_code"/>
           </div>
-      
-      
+           
           <div class="form-control mt-6">
             <button class="btn btn-primary" type="submit">Register</button>
           </div>

@@ -1,12 +1,52 @@
 <script>
+  import { push } from 'svelte-spa-router';
+  import Messagestore from '../../MessageStore';
+
   const login_description ="Login to view Energy usage and add new meter reading.";
-  import {push, pop, replace} from 'svelte-spa-router';
-  let email;
-  let password;
+  let customer_id = localStorage.getItem('lastLogin');
+  let password_hash = "";
+
+  let msg={
+    content: "",
+    type: "",
+    action: "",
+    path: ""
+  }
   
-  function login(){
-      alert(email + password);
-      push('/dashboard');
+  async function login(){
+    const res = await fetch('http://localhost:8080/iGSE/login',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({customer_id,password_hash})
+    })
+    .then((response) => {
+      if(!response.ok){
+        msg.type = "alert-error";
+      } else {
+        msg.content = "";
+        msg.type = "";
+        push('/dashboard');          
+      }
+      return response.json();
+    })
+    .then((response) => {
+      if(response.message){
+        msg.content = response.message;
+      }
+      if(response.customer_id){
+        localStorage.setItem('customer', JSON.stringify(response));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      msg.type = "alert-error";
+      msg.content = "Request cannot be sent";
+    })
+    .finally(() => {
+      Messagestore.update(() => msg);
+    })
   }
 </script>
 
@@ -23,13 +63,13 @@
             <label for="email" class="label">
               <span class="label-text">Email</span>
             </label>
-            <input type="text" placeholder="email" class="input input-bordered" name="email" bind:value={email}/>
+            <input type="text" placeholder="email" class="input input-bordered" name="email" bind:value={customer_id}/>
           </div>
           <div class="form-control">
             <label for="password" class="label">
               <span class="label-text">Password</span>
             </label>
-            <input type="password" placeholder="password" class="input input-bordered" name="password" bind:value={password}/>
+            <input type="password" placeholder="password" class="input input-bordered" name="password" bind:value={password_hash}/>
           </div>
           <div class="form-control">
             <label for="registration" class="label justify-end">
@@ -37,7 +77,7 @@
             </label>
           </div>
           <div class="form-control">
-            <button on:click|stopPropagation={login} class="btn btn-primary">Login</button>
+            <button on:click={login} class="btn btn-primary">Login</button>
           </div>
         </div>
       </div>

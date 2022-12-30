@@ -1,8 +1,7 @@
 <script>
   import Navbar from '../Navbar.svelte';
-  import icon from '../../assets/oil-drill.svg';
-  import {push} from 'svelte-spa-router';
-  import {onMount, onDestroy} from 'svelte';
+  import { push } from 'svelte-spa-router';
+  import { onMount } from 'svelte';
 
   let readings = [];
   onMount(async () => {
