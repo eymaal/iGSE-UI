@@ -1,18 +1,33 @@
 <script>
     import { Html5Qrcode } from 'html5-qrcode';
-    import { onMount } from 'svelte';
-    import { pop } from 'svelte-spa-router';
+    import { onMount, onDestroy } from 'svelte';
+    import { push, pop } from 'svelte-spa-router';
 
-    let scanning = false
+    let scanning = false;
+    let modal;
+    let EVC_code = "";
+    let title = "";
+    let description = "Click Confirm to redeem Voucher for £200, or Cancel to scan another code.";
+    let submit = true;
+    let complete = false;
+    let secondaryButtonText = "Cancel";
 
     let html5Qrcode;
     onMount(init);
+    onDestroy(() =>{
+        if(scanning){
+            stop();
+        }
+    })
 
     function init() {
-        html5Qrcode = new Html5Qrcode('reader')
+        html5Qrcode = new Html5Qrcode('reader');
     }
 
     function start() {
+        submit = true;
+        secondaryButtonText = "Cancel";
+        description = "Click Confirm to redeem Voucher for £200, or Cancel to scan another code.";
         html5Qrcode.start(
             { facingMode: 'environment' },
             {
@@ -21,13 +36,13 @@
             },
             onScanSuccess,
             onScanFailure
-        )
-        scanning = true
+        );
+        scanning = true;
     }
 
     async function stop() {
-        await html5Qrcode.stop()
-        scanning = false
+        await html5Qrcode.stop();
+        scanning = false;
     }
 
     function close() {
@@ -38,13 +53,49 @@
     }
 
     function onScanSuccess(decodedText, decodedResult) {
-        alert(`Code matched = ${decodedText}`)
-        console.log(decodedResult)
+        EVC_code = decodedText;
+        title = `Confirm ${EVC_code}`;
+        stop();
+        modal.click();
+        console.log(decodedResult);
     }
 
     function onScanFailure(error) {
-        console.warn(`Code scan error = ${error}`)
+        console.warn(`Code scan error = ${error}`);
     }
+
+    async function addCode() {
+        let customer = JSON.parse(localStorage.getItem('customer'));
+        const res = await fetch('http://localhost:8080/iGSE/addVoucher?evcCode='+ EVC_code,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(customer)
+        })
+        .then((response) => {
+            if(!response.ok){
+                title = "Error";
+            } else {
+                title = "Success";
+            }
+            return response.json();
+        })
+        .then((response) => {
+            submit = false;
+            if(response.message){
+                description = response.message;
+                secondaryButtonText = "Scan Again";
+            } else {
+                description = `Voucher has been redeemed. Your updated balance: ${response.balance}`;
+                let customer = JSON.parse(localStorage.getItem('customer'));
+                customer.balance = response.balance;
+                localStorage.setItem('customer', JSON.stringify(customer));
+                complete = true;
+            }
+        })
+    }
+
 </script>
 
 <style>
@@ -79,4 +130,26 @@
             </div>
         </div>
     </div>
+</div>
+
+<label for="my-modal" class="btn hidden">Confirmation Modal</label>
+
+<!-- Put this part before </body> tag -->
+<input type="checkbox" id="my-modal" class="modal-toggle" bind:this={modal}/>
+<div class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">{title}</h3>
+    <p class="py-4">{description}</p>
+    <div class="modal-action">
+        {#if submit}
+            <button class="btn btn-primary" on:click={addCode}>Confirm</button> 
+        {/if}
+        {#if complete}
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <label for="my-modal" class="btn btn-primary" on:click={close}>OK</label>
+        {:else}
+            <label for="my-modal" class="btn">{secondaryButtonText}</label>
+        {/if}
+    </div>
+  </div>
 </div>
