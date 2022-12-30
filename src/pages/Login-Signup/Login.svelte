@@ -26,8 +26,7 @@
         msg.type = "alert-error";
       } else {
         msg.content = "";
-        msg.type = "";
-        push('/dashboard');          
+        msg.type = "";          
       }
       return response.json();
     })
@@ -37,6 +36,7 @@
       }
       if(response.customer_id){
         localStorage.setItem('customer', JSON.stringify(response));
+        push('/dashboard');
       }
     })
     .catch((error) => {

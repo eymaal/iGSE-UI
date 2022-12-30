@@ -2,6 +2,7 @@
     import {pop} from 'svelte-spa-router';
     import Messagestore from '../../MessageStore';
 
+    let customer_id = JSON.parse(localStorage.getItem('customer')).customer_id;
     let msg={
         content: "",
         type: "",
@@ -14,7 +15,7 @@
 
     const newReading = document.querySelector('#newReading');
     let reading = {
-        customer_id: "we@shangrila.gov.un",
+        customer_id: customer_id,
         submission_date: today,
         elec_readings_day: "",
         elec_readings_night: "",

@@ -5,9 +5,8 @@
 
     let scanning = false
 
-    let html5Qrcode
-
-    onMount(init)
+    let html5Qrcode;
+    onMount(init);
 
     function init() {
         html5Qrcode = new Html5Qrcode('reader')
@@ -65,14 +64,16 @@
         </button>   
         <!-- svelte-ignore a11y-media-has-caption -->
         <reader id="reader" class="flex justify-center"/>
-        {#if scanning}
-            <button class="btn btn-primary" on:click={stop}>Stop Scanning</button>
-        {:else}
-            <button class="btn btn-primary" on:click={start}>Start Scanning</button>
-        {/if}
         <div>
-            <h1 class="text-3xl font-bold">Recharge</h1>
-            <p class="py-6">Scan the QR Code on your E-voucher</p>
+            {#if scanning}
+                <button class="btn btn-primary" on:click={stop}>Stop Scanning</button>
+            {:else}
+                <button class="btn btn-primary" on:click={start}>Start Scanning</button>
+            {/if}
+            <div>
+                <h1 class="text-3xl font-bold">Recharge</h1>
+                <p class="py-6">Scan the QR Code on your E-voucher</p>
+            </div>
         </div>
     </div>
 </div>
