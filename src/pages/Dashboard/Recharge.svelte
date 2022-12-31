@@ -12,6 +12,7 @@
     let submit = true;
     let complete = false;
     let secondaryButtonText = "Cancel";
+    let inputClass = "input input-bordered flex-grow";
 
     let html5Qrcode;
     onMount(init);
@@ -53,11 +54,20 @@
         pop();
     }
 
+    function setThingsInMotion(){
+        if(EVC_code.length==0){
+            inputClass = "input input-bordered flex-grow input-error";
+        } else {
+            inputClass = "input input-bordered flex-grow";
+            title = `Confirm ${EVC_code}`;
+            modal.click();
+        }
+    }
+
     function onScanSuccess(decodedText, decodedResult) {
         EVC_code = decodedText;
-        title = `Confirm ${EVC_code}`;
+        setThingsInMotion();
         stop();
-        modal.click();
         console.log(decodedResult);
     }
 
@@ -125,6 +135,13 @@
             {:else}
                 <button class="btn btn-primary" on:click={start}>Start Scanning</button>
             {/if}
+            <div class="divider lg:divider-horizontal">OR</div>
+            <div class="form-control">
+                <div class="input-group">
+                  <input type="text" placeholder="Enter 8 digit code" class={inputClass} id="EVC_code" bind:value={EVC_code}/>
+                  <button class="btn" on:click={setThingsInMotion}>✔</button>
+                </div>
+            </div>
             <div class = "w-max flex items-center flex-col">
                 <h1 class="text-3xl font-bold">Recharge</h1>
                 <p class="py-6">Scan the QR Code on your E-voucher</p>

@@ -51,8 +51,9 @@
           return response.json();          
         } else{
           messages.type = "alert-success";
-          messages.content = "Registration Successful! Click here to log in.";
-          messages.path = "/login";       
+          messages.content = "Registration Successful!";
+          messages.path = "/login"; 
+          push("/login");
         }}).then((message) => {
           if(messages.type=="alert-error"){
             messages.content=message.message;            

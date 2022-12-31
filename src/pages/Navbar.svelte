@@ -56,7 +56,7 @@
 			>
 				<li><a href="/#/addReading">Add Reading</a></li>
 				<li><a href="/#/recharge">Add E-Voucher</a></li>
-				<li><a href="/#/Dashboard">Pay Bills</a></li>
+				<li><a href="/#/billpay">Pay Bills</a></li>
 				<li><a href="/#/login">Log Out</a></li>
 			</ul>
 		</div>
