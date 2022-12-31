@@ -1,5 +1,6 @@
 <script>
   import { push } from 'svelte-spa-router';
+  import { fly } from 'svelte/transition';
   import Messagestore from '../../MessageStore';
 
   const login_description ="Login to view Energy usage and add new meter reading.";
@@ -51,7 +52,7 @@
 </script>
 
 <div class="hero min-h-screen bg-base-200">
-    <div class="hero-content flex-col lg:flex-row-reverse">
+    <div class="hero-content flex-col lg:flex-row-reverse" transition:fly="{{ y: 100, duration: 200 }}">
       <div class="text-center lg:text-left">
         <h1 class="text-5xl font-bold">iGSE</h1>
         <h4 class="text-2xl ">An Energy Tool</h4>

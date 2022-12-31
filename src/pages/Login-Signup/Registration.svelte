@@ -3,6 +3,7 @@
   import * as yup from 'yup';
   import { Form, Message, isInvalid } from 'svelte-yup';
   import { push } from 'svelte-spa-router';
+  import { fly } from 'svelte/transition';
   import Messagestore from '../../MessageStore';
   
   let messages={
@@ -90,7 +91,7 @@
 </script>
 
 <div class="hero min-h-screen bg-base-200">
-  <div class="hero-content flex-col lg:flex-col">
+  <div class="hero-content flex-col lg:flex-col" transition:fly="{{ y: 100, duration: 200 }}">
     <div class="text-center lg:text-left">
       <h1 class="text-5xl font-bold">Get Started!</h1>
       <p class="py-6">Enter your details and become a part of the Great Shangri-La Energy Company!</p>

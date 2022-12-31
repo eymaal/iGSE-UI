@@ -7,6 +7,12 @@
   export let action;
   export let path;
 
+  $: content && reset();
+
+  let reset = () => {
+    setTimeout(resetMessage, 1000);
+  }
+
   let closeAlert = () => {
     if(path.length>0){
         setTimeout(() => {

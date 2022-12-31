@@ -2,6 +2,7 @@
     import { Html5Qrcode } from 'html5-qrcode';
     import { onMount, onDestroy } from 'svelte';
     import { push, pop } from 'svelte-spa-router';
+    import { fly } from 'svelte/transition';
 
     let scanning = false;
     let modal;
@@ -109,7 +110,7 @@
 </style>
 
 <div class="hero min-h-screen bg-base-200">
-    <div class="hero-content flex-col lg:flex-row-reverse gap-3 p-8 w-full max-w-4xl">
+    <div class="hero-content flex-col lg:flex-row-reverse gap-3 p-8 w-full max-w-4xl" transition:fly="{{ y: 100, duration: 200 }}">
         <button class="btn btn-circle btn-outline btn-md lg:hidden" on:click={close}>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
         </button>   

@@ -6,8 +6,11 @@
   import NewReading from './pages/Dashboard/NewReading.svelte';
   import Recharge from './pages/Dashboard/Recharge.svelte';
   import Messages from './util/Messages.svelte';
+  import PayBills from './pages/Dashboard/PayBills.svelte';
   import ErrorPage from './pages/404.svelte';
   import MessageStore from './MessageStore';
+
+
 
   const routes = {
     '/': Login,
@@ -16,6 +19,7 @@
     '/dashboard': Dashboard,
     '/addReading': NewReading,
     '/recharge': Recharge,
+    '/billpay' : PayBills,
 
     '*': ErrorPage,
   }

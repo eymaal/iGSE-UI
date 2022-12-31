@@ -47,7 +47,7 @@
     {
       title: "Pay Bills",
       description: "Pay your unpaid bills.",
-      path: "/dashboard"
+      path: "/billpay"
     }
   ]
 
@@ -113,7 +113,7 @@
 <style>
   #dash-container{
     gap: 12px;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
     min-height: calc(100vh - 278px - 64px);
   }
   .card:hover{
