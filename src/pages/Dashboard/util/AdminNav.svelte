@@ -23,8 +23,7 @@
         </button>
     </div>
     <div class="flex-1">
-        <!-- svelte-ignore a11y-missing-attribute -->
-        <a class="btn btn-ghost normal-case text-xl">iGSE - Admin</a>
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="btn btn-ghost normal-case text-xl">iGSE - Admin</a>
     </div>
     <div class="flex-none">
         <ThemeChange/>

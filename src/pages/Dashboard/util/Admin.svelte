@@ -23,7 +23,7 @@
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col items-center justify-center lg:ml-80">
         <!-- Page content here -->
-        <div class="flex flex-col gap-2 min-h-screen items-center justify-center">
+        <div class="flex flex-col gap-2 min-h-screen items-center justify-center mt-16">
             <AdminStat/>
             <AdminReading/>
         </div>
@@ -36,7 +36,7 @@
         <label for="my-drawer-2" class="drawer-overlay"></label> 
         <ul class="menu p-4 w-80 bg-base-100 text-base-content">
             <!-- Sidebar content here -->
-            <li><a>Sidebar Item 1</a></li>
+            <li><a>Set Unit Rates</a></li>
             <li><a>Sidebar Item 2</a></li>
         </ul>
     

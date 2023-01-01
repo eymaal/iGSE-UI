@@ -55,7 +55,7 @@
 		</div>
 	</div>
 	<div class="navbar-center">
-		<a href="/#/Dashboard" class="btn btn-ghost normal-case text-xl">iGSE</a
+		<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="btn btn-ghost normal-case text-xl">iGSE</a
 		>
 	</div>
 	<div class="navbar-end">
