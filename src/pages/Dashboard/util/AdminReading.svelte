@@ -1,5 +1,27 @@
 <script>
+    import { onMount } from "svelte";
+
+    let customer_id;
     let readings = [];
+
+    onMount(async () => {
+        customer_id = JSON.parse(localStorage.getItem('customer')).customer_id;
+        const res = await fetch('http://localhost:8080/iGSE/admin/readings?customer_id='+customer_id,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => {
+            if(!response.ok){
+                readings = [];
+            }
+            return response.json();
+        })
+        .then((result) => {
+            readings = result;
+        })
+    })
 </script>
 
 {#if readings.length>0}
@@ -20,7 +42,7 @@
           {#each readings as reading, index }  
             <tr class="hover">
               <th>{index+1}</th>
-              <td>{reading.customer_id.split('@')[0]}</td>
+              <td>{reading.customer_id}</td>
               <td>{reading.submission_date.slice(0,10)}</td>
               <td>{reading.elec_readings_day}</td>
               <td>{reading.elec_readings_night}</td>
@@ -38,3 +60,10 @@
     </span>
   </p>
   {/if}
+
+  <style>
+    .table thead th{
+        @apply bg-primary;
+        color: hsl(var(--b1));
+    }
+  </style>
