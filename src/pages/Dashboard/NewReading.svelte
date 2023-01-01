@@ -1,9 +1,21 @@
 <script>
-    import {pop} from 'svelte-spa-router';
+    import { push,pop} from 'svelte-spa-router';
     import { fly } from 'svelte/transition';
+    import { onMount } from 'svelte';
     import Messagestore from '../../MessageStore';
 
-    let customer_id = JSON.parse(localStorage.getItem('customer')).customer_id;
+    onMount(() => {
+        if(!localStorage.getItem('customer')){
+            push('/login');
+        } else{
+            if(JSON.parse(localStorage.getItem('customer')).type=='admin'){
+                push('/admin');
+            }
+            customer_id = JSON.parse(localStorage.getItem('customer')).customer_id;
+        }
+    });
+
+    let customer_id = "";
     let msg={
         content: "",
         type: "",

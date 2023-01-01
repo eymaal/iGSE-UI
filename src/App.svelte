@@ -9,8 +9,7 @@
   import PayBills from './pages/Dashboard/PayBills.svelte';
   import ErrorPage from './pages/404.svelte';
   import MessageStore from './MessageStore';
-
-
+  import Admin from './pages/Dashboard/util/Admin.svelte';
 
   const routes = {
     '/': Login,
@@ -20,7 +19,7 @@
     '/addReading': NewReading,
     '/recharge': Recharge,
     '/billpay' : PayBills,
-
+    '/admin' : Admin,
     '*': ErrorPage,
   }
 

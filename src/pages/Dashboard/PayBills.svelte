@@ -13,7 +13,7 @@
 
     let disabled;
     let customer_id;
-    let balance = JSON.parse(localStorage.getItem('customer')).balance;
+    let balance = 0;
     let dues = 0.0;
     let recharge = () => {push('/recharge')};
     let pay = async () => {
@@ -47,6 +47,15 @@
     }
 
     onMount(async () => {
+        if(!localStorage.getItem('customer')){
+            push('/login');
+        } else{
+            if(JSON.parse(localStorage.getItem('customer')).type=='admin'){
+                push('/admin');
+            }
+            balance = JSON.parse(localStorage.getItem('customer')).balance;
+        }
+
         customer_id = JSON.parse(localStorage.getItem('customer')).customer_id;
         const res = await fetch('http://localhost:8080/iGSE/calculateBill?customer_id='+customer_id, {
             method: 'GET',

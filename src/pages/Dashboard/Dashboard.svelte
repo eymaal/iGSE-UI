@@ -2,6 +2,7 @@
   import Navbar from '../Navbar.svelte';
   import { push } from 'svelte-spa-router';
   import { onMount } from 'svelte';
+  import Footer from './util/Footer.svelte';
 
   let readings = [];
   let customer_id;
@@ -30,6 +31,13 @@
     })
   }
   onMount(async () => {
+    if(!localStorage.getItem('customer')){
+      push('/login');
+    } else{
+      if(JSON.parse(localStorage.getItem('customer')).type=='admin'){
+        push('/admin');
+      }
+    }
     fetchReading();    
   })
 
@@ -102,13 +110,7 @@
   {/if}
 </div>
 
-<footer class="footer footer-center p-10 bg-primary text-primary-content">
-  <div>
-    <svg width="100" height="100" viewBox="0 0 14 14" role="img" focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000" stroke-width="0.11200000000000002"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_iconCarrier"><path fill="#cddc39" d="M11.00000006 4.99999997C11.00000006 2.77142851 9.22857146.99999991 7 .99999991c-2.22857146 0-4.00000006 1.7714286-4.00000006 4.00000006 0 2.34285718 2.28571432 3.08571433 2.28571432 4.74285721v.40000001h3.42857148v-.4c0-1.65714289 2.28571432-2.40000004 2.28571432-4.74285722z"></path><path fill="#388e3c" d="M5.65714284 2.68571422s-.97142859 2.20000003-.54285715 3.65714291C5.4285714 7.37142858 6.5142857 7.62857143 7 7.25714286c.05714286.42857144-.11428572.80000001-.25714286 1.17142859L7.6 8.74285717c.54285715-1.60000002-.37142858-3.42857148-.91428573-4.28571435 1.2857143.91428573 1.65714288 2.4571429 1.65714288 2.4571429.11428572-.05714286.17142858-.17142858.31428572-.31428573.80000001-.97142858.37142858-3.22857147-3.00000004-3.91428577zM5.28571426 9.8571429v1.42857145c0 .54285715.4 1.00000001.91428573 1.11428573.11428571.34285715.42857143.60000001.80000001.60000001s.71428572-.25714286.80000001-.6c.51428572-.11428573.91428573-.57142859.91428573-1.11428574V9.8571429H5.28571426z"></path><path fill="#4caf50" d="M8.71428574 11.28571435l-3.31428576.45714286c.08571428.2.25714286.40000001.45714286.51428573l2.68571433-.37142858c.11428571-.17142858.17142857-.37142858.17142857-.60000001zm-3.42857148-.08571429l3.42857148-.48571429v-.57142858l-3.42857148.4857143z"></path></g></svg>    
-    <label for="company" class="label text-2xl">The Great Shangri-La Energy Company</label>
-    <label for="company_tag" class="label p-0">Energy for the people. Energy by the people.</label>
-  </div> 
-</footer>
+<Footer/>
 
 <style>
   #dash-container{

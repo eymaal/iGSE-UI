@@ -15,7 +15,16 @@
     let inputClass = "input input-bordered flex-grow";
 
     let html5Qrcode;
-    onMount(init);
+    onMount(() => {
+        if(!localStorage.getItem('customer')){
+            push('/login');
+        } else{
+            if(JSON.parse(localStorage.getItem('customer')).type=='admin'){
+                push('/admin');
+            }
+        }
+        init();
+    });
     onDestroy(() =>{
         if(scanning){
             stop();
