@@ -8,6 +8,8 @@
 
     let rates = [], rates_backup = [];
     let customer_id;
+    let modalText = "Cancel";
+    let modalPrimary = "Update";
 
     onMount(() => {
         if(!localStorage.getItem('customer')){
@@ -40,6 +42,28 @@
 
     function resetRates(){
         rates = rates_backup;
+        modalPrimary = "Update";
+        modalText = "Cancel";
+    }
+
+    let updateRates = async () => {
+        const res = await fetch('http://localhost:8080/iGSE/admin/setrates?customer_id='+customer_id,{
+            method: 'PUT',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(rates)
+        })
+        .then((response) => {
+            return response.json();
+        })
+        .then((rateList) => {
+            rates_backup = rateList;
+            resetRates();
+            modalText = "OK";
+            modalPrimary = "";
+
+        })
     }
 
 </script>
@@ -74,22 +98,26 @@
     <div class="modal-box">
         <h3 class="font-bold text-lg">Update Unit Rates</h3>
         <div class="modal-action flex-col">
-            <div class="rate-container mb-3">
-                {#each rates as rate}
-                    <div class="form-control">
-                        <label class="label" for={rate.tariff_type}>
-                            <span class="label-text">{rate.tariff_type}</span>
-                        </label>
-                        <input type="number" placeholder="Enter rate" class="input input-bordered" bind:value={rate.rate} min=0/>
-                    </div>                
-                {/each}
-            </div>
-            <div class="btn-container flex justify-end gap-1">
-                <button class="btn btn-primary">Update</button>
-                <!-- svelte-ignore missing-declaration -->
-                <!-- svelte-ignore a11y-click-events-have-key-events -->
-                <label for="my-modal-6" class="btn" on:click={resetRates}>Cancel</label>
-            </div>
+            <form on:submit={updateRates}>
+                <div class="rate-container mb-3">
+                    {#each rates as rate}
+                        <div class="form-control">
+                            <label class="label" for={rate.tariff_type}>
+                                <span class="label-text">{rate.tariff_type}</span>
+                            </label>
+                            <input type="number" placeholder="Enter rate" class="input input-bordered" bind:value={rate.rate} min=0 step="any"/>
+                        </div>                
+                    {/each}
+                </div>
+                <div class="btn-container flex justify-end gap-1">
+                    {#if modalPrimary.length>0}                    
+                        <button type = "submit" class="btn btn-primary">{modalPrimary}</button>
+                    {/if}
+                    <!-- svelte-ignore missing-declaration -->
+                    <!-- svelte-ignore a11y-click-events-have-key-events -->
+                    <label for="my-modal-6" class="btn" on:click={resetRates}>{modalText}</label>
+                </div>
+            </form>
         </div>
     </div>
 </div>
