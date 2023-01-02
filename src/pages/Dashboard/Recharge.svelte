@@ -144,7 +144,7 @@
             {:else}
                 <button class="btn btn-primary" on:click={start}>Start Scanning</button>
             {/if}
-            <div class="divider lg:divider-horizontal">OR</div>
+            <div class="divider divider-horizontal">OR</div>
             <div class="form-control">
                 <div class="input-group">
                   <input type="text" placeholder="Enter 8 digit code" class={inputClass} id="EVC_code" bind:value={EVC_code}/>
