@@ -6,6 +6,9 @@
     import { push } from 'svelte-spa-router';
     import { onMount } from "svelte";
 
+    let rates = [], rates_backup = [];
+    let customer_id;
+
     onMount(() => {
         if(!localStorage.getItem('customer')){
             push('/login');
@@ -14,7 +17,30 @@
                 push('/dashboard');
             }
         }
+        customer_id = JSON.parse(localStorage.getItem('customer')).customer_id;
+        getRates();
     })
+
+    let getRates = async () => {
+        const res = await fetch('http://localhost:8080/iGSE/admin/rates?customer_id='+customer_id,{
+            method: 'GET',
+            headers: {
+            'Content-Type': 'application/json'
+            }
+        })
+        .then((response) =>{
+            return response.json();
+        })
+        .then((rateList) => {
+            rates_backup = rateList;
+            resetRates();
+            console.log(rates);
+        })
+    }
+
+    function resetRates(){
+        rates = rates_backup;
+    }
 
 </script>
 
@@ -36,16 +62,47 @@
         <label for="my-drawer-2" class="drawer-overlay"></label> 
         <ul class="menu p-4 w-80 bg-base-100 text-base-content">
             <!-- Sidebar content here -->
-            <li><a>Set Unit Rates</a></li>
+            <li><a  class ="p-0"><label for="my-modal-6" class="h-full w-full pr-4 pl-4 pt-3 pb-3 cursor-pointer">Set Unit Rates</label></a></li>
             <li><a>Sidebar Item 2</a></li>
         </ul>
     
     </div>
 </div>
 
+<input type="checkbox" id="my-modal-6" class="modal-toggle" />
+<div class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Update Unit Rates</h3>
+        <div class="modal-action flex-col">
+            <div class="rate-container mb-3">
+                {#each rates as rate}
+                    <div class="form-control">
+                        <label class="label" for={rate.tariff_type}>
+                            <span class="label-text">{rate.tariff_type}</span>
+                        </label>
+                        <input type="number" placeholder="Enter rate" class="input input-bordered" bind:value={rate.rate} min=0/>
+                    </div>                
+                {/each}
+            </div>
+            <div class="btn-container flex justify-end gap-1">
+                <button class="btn btn-primary">Update</button>
+                <!-- svelte-ignore missing-declaration -->
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <label for="my-modal-6" class="btn" on:click={resetRates}>Cancel</label>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
     .drawer,
-    .drawer-side{
+    .drawer-side {
         height: calc(100vh - 4rem);
+    }
+
+    .rate-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(186px, 1fr));
+        gap: 0.5rem;
     }
 </style>
