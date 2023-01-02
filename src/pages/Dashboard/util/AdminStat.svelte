@@ -2,7 +2,7 @@
     let customers=0, unpaidBills=0, eDayUnits, eNightUnits, gasUnits;
 </script>
 
-<div class="stats stats-vertical lg:stats-horizontal shadow bg-primary text-primary-content">    
+<div class="stats stats-horizontal shadow bg-primary text-primary-content">    
     <div class="stat">
     <div class="stat-title">Customers</div>
     <div class="stat-value">{customers}</div>
