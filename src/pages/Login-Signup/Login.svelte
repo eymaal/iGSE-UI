@@ -6,6 +6,8 @@
   const login_description ="Login to view Energy usage and add new meter reading.";
   let customer_id = localStorage.getItem('lastLogin');
   let password_hash = "";
+  let email_text = "";
+  let pass_text = "";
 
   let msg={
     content: "",
@@ -15,6 +17,12 @@
   }
   
   async function login(){
+    if(customer_id.length==0 || password_hash.length==0){
+      if(customer_id.length==0) email_text = "Enter email id";
+      if(password_hash.length==0) pass_text = "Enter password";
+      return;
+    }
+
     const res = await fetch('http://localhost:8080/iGSE/login',{
       method: 'POST',
       headers: {
@@ -34,6 +42,8 @@
     .then((response) => {
       if(response.message){
         msg.content = response.message;
+        email_text = " ";
+        pass_text = msg.content;
       }
       if(response.customer_id){
         localStorage.setItem('customer', JSON.stringify(response));
@@ -60,27 +70,38 @@
       </div>
       <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
         <div class="card-body">
-          <div class="form-control">
-            <label for="email" class="label">
-              <span class="label-text">Email</span>
-            </label>
-            <input type="text" placeholder="email" class="input input-bordered" name="email" bind:value={customer_id}/>
-          </div>
-          <div class="form-control">
-            <label for="password" class="label">
-              <span class="label-text">Password</span>
-            </label>
-            <input type="password" placeholder="password" class="input input-bordered" name="password" bind:value={password_hash}/>
-          </div>
-          <div class="form-control">
-            <label for="registration" class="label justify-end">
-              <a href="#/registration" class="label-text-alt link link-hover">Not registered yet? Click here.</a>
-            </label>
-          </div>
-          <div class="form-control">
-            <button on:click|stopPropagation={login} class="btn btn-primary">Login</button>
-          </div>
+          <form on:submit|stopPropagation|preventDefault={login} class="contents">
+            <div class="form-control">
+              <label for="email" class="label">
+                <span class="label-text">Email</span>
+              </label>
+              <input type="text" placeholder="email" class="input input-bordered {email_text.length>0? 'input-error':''}" name="email" bind:value={customer_id}/>
+              <span class="label-text-alt">{email_text}</span>
+            </div>
+            <div class="form-control">
+              <label for="password" class="label">
+                <span class="label-text">Password</span>
+              </label>
+              <input type="password" placeholder="password" class="input input-bordered {pass_text.length>0? 'input-error':''}" name="password" bind:value={password_hash}/>
+              <span class="label-text-alt text-error">{pass_text}</span>
+            </div>
+            <div class="form-control">
+              <label for="registration" class="label justify-end">
+                <a href="#/registration" class="label-text-alt link link-hover">Not registered yet? Click here.</a>
+              </label>
+            </div>
+            <div class="form-control">
+              <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
+
+
+<style>
+  .input-error::placeholder {
+    color: hsl(var(--er));
+  }
+</style>
