@@ -50,7 +50,9 @@
 				<li><a href="/#/addReading">Add Reading</a></li>
 				<li><a href="/#/recharge">Add E-Voucher</a></li>
 				<li><a href="/#/billpay">Pay Bills</a></li>
-				<li><a href="/#/login">Log Out</a></li>
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<!-- svelte-ignore a11y-missing-attribute -->
+				<li><a on:click={logout}>Log Out</a></li>
 			</ul>
 		</div>
 	</div>
