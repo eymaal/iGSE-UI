@@ -15,7 +15,7 @@
         }
     });
 
-    let customer_id = "";
+    let customer_id = JSON.parse(localStorage.getItem('customer')).customer_id;
     let msg={
         content: "",
         type: "",

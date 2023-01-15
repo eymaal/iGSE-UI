@@ -105,7 +105,10 @@
                             <label class="label" for={rate.tariff_type}>
                                 <span class="label-text">{rate.tariff_type}</span>
                             </label>
-                            <input type="number" placeholder="Enter rate" class="input input-bordered" bind:value={rate.rate} min=0 step="any"/>
+                            <label for={rate.tariff_type} class="input-group">
+                                <span>£</span>
+                                <input type="number" placeholder="Enter rate" class="input input-bordered w-full" bind:value={rate.rate} min=0 step="any"/>
+                            </label>
                         </div>                
                     {/each}
                 </div>
