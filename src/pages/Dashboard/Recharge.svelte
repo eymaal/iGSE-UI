@@ -15,6 +15,18 @@
     let inputClass = "input input-bordered flex-grow";
 
     let html5Qrcode;
+
+    $: {
+        // @ts-ignore
+        resetModal() || EVC_code;
+    }
+
+    let resetModal = () => {
+        submit = true;
+        secondaryButtonText = "Cancel";
+        description = "Click Confirm to redeem Voucher for £200, or Cancel to scan another code.";
+    }
+
     onMount(() => {
         if(!localStorage.getItem('customer')){
             push('/login');
