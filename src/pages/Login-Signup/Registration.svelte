@@ -4,8 +4,56 @@
   import { Form, Message, isInvalid } from 'svelte-yup';
   import { push } from 'svelte-spa-router';
   import { fly } from 'svelte/transition';
+  import { Html5Qrcode } from 'html5-qrcode';
+  import { onMount, onDestroy } from 'svelte';
   import Messagestore from '../../MessageStore';
   
+  let scanning = false;
+  let html5Qrcode, scannerModal;
+
+  onMount(() => {
+    init();
+  })
+
+  onDestroy(() =>{
+    if(scanning){
+        stop();
+    }
+  })
+
+  function init() {
+    html5Qrcode = new Html5Qrcode('reader');
+  }
+
+  function start() {
+    html5Qrcode.start(
+        { facingMode: 'environment' },
+        {
+            fps: 10,
+            qrbox: { width: 250, height: 250 },
+        },
+        onScanSuccess,
+        onScanFailure
+    );
+    scanning = true;
+  }
+
+  async function stop() {
+    await html5Qrcode.stop();
+    scanning = false;
+  }
+
+  function onScanSuccess(decodedText, decodedResult) {
+    customer.EVC_code = decodedText;
+    stop();
+    console.log(decodedResult);
+    scannerModal.click();
+  }
+
+  function onScanFailure(error) {
+    console.warn(`Code scan error = ${error}`);
+  }
+
   let messages={
     content: "",
     type: "",
@@ -30,7 +78,7 @@
     bedroom_num: 0,
     EVC_code: ""
   }
-
+  let modalLabel;
   let submitted = false;
   let isValid;
   async function register(){
@@ -154,9 +202,12 @@
             </label>
             <div class="input-group">
               <input type="text" placeholder="Enter 8 digit code" class="input input-bordered flex-grow" id="EVC_code" bind:value={customer.EVC_code} class:invalid={invalid("EVC_code")}/>
-              <button class="btn btn-square" on:click|stopPropagation|preventDefault={() => {push("/recharge")}}>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 64 64" stroke="currentColor" stroke-width="4"><g id="SVGRepo_bgCarrier" stroke-width="3.17"></g><g id="SVGRepo_iconCarrier"><path d="M54.1,50.13H9.9a2,2,0,0,1-2-2V21.87c0-1.11.89-1,2-1h7.54a1,1,0,0,0,.76-.35l4.1-5.95a2,2,0,0,1,1.52-.7H40a2,2,0,0,1,1.51.7l4.11,5.95a1,1,0,0,0,.76.35H54.1c1.11,0,2-.11,2,1V48.13A2,2,0,0,1,54.1,50.13Z"></path><circle cx="32" cy="34" r="10.05"></circle></g></svg>
-              </button>
+              <!-- <button class="btn btn-square" on:click|stopPropagation|preventDefault={() => {push("/recharge")}}> -->
+              <label for="my-modal-6" class="btn mt-neg-1 p-0" bind:this={modalLabel}>
+                <button class="btn btn-square" on:click|preventDefault={() => {modalLabel.click()}}>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 64 64" stroke="currentColor" stroke-width="4"><g id="SVGRepo_bgCarrier" stroke-width="3.17"></g><g id="SVGRepo_iconCarrier"><path d="M54.1,50.13H9.9a2,2,0,0,1-2-2V21.87c0-1.11.89-1,2-1h7.54a1,1,0,0,0,.76-.35l4.1-5.95a2,2,0,0,1,1.52-.7H40a2,2,0,0,1,1.51.7l4.11,5.95a1,1,0,0,0,.76.35H54.1c1.11,0,2-.11,2,1V48.13A2,2,0,0,1,54.1,50.13Z"></path><circle cx="32" cy="34" r="10.05"></circle></g></svg>
+                </button>
+              </label>
             </div>
             <Message name="EVC_code"/>
           </div>
@@ -170,11 +221,41 @@
   </div>
 </div>
 
+<input type="checkbox" id="my-modal-6" class="modal-toggle" bind:this={scannerModal}/>
+<div class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Scan EVC Code</h3>
+    <div class="modal-content">    
+      <reader id="reader" class="flex justify-center"/>
+      <div class="modal-action">
+        {#if scanning}
+          <button class="btn btn-primary" on:click={stop}>Stop Scanning</button>
+        {:else}
+          <button class="btn btn-primary" on:click={start}>Scan</button>
+          <label for="my-modal-6" class="btn">Cancel</label>
+        {/if}
+      </div>
+    </div>
+  </div>
+</div>
+
 <style>
   .invalid {
     @apply input-error;
   }
   .invalid {
     @apply p-4; 
+  }
+
+  .mt-neg-1 > button {
+    margin-top: -1px;
+  }
+
+  reader {
+    width: auto;
+    min-width: 80%;
+    height: auto;
+    min-height: 300px;
+    background-color: black;
   }
 </style>
