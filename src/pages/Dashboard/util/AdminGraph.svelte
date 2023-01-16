@@ -2,6 +2,8 @@
     import { onMount } from "svelte";
 
     let customer_id;
+    let averageSeries = [];
+    let labelSeries = [];
 
     onMount(() => {
         customer_id = JSON.parse(localStorage.getItem('customer')).customer_id;
@@ -20,6 +22,19 @@
         })
         .then((data) => {
             console.log(data);
+            Object.keys(data).forEach(label => {
+                let customer = {};
+                customer['label'] = label;
+                labelSeries.push(customer);
+            })
+            Object.values(data).forEach(v => {
+                let value = {};
+                value['value'] = v.averageUnits;
+                averageSeries.push(value);
+            })
+            console.log(labelSeries);
+
+
         })
     }
       
@@ -46,27 +61,13 @@
     },
     "categories": [
         {
-        "category": [
-            {
-            "label": "1994"
-            },
-            {
-            "label": "1995"
-            }            
-        ]
+            "category": labelSeries
         }
     ],
     "dataset": [
         {
-        "seriesname": "Diptera",
-        "data": [
-            {
-            "value": "3622"
-            },
-            {
-            "value": "2612"
-            }            
-        ]
+            "seriesname": "Average Electricity and Gas Consumption",
+            "data": averageSeries
         }
     ]
     };
@@ -82,4 +83,4 @@
 
 <div id="container">
     <SvelteFC {...chartConfigs} />
-  </div>
+</div>
