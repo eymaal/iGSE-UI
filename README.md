@@ -9,7 +9,6 @@ The project was created using Svelte + Vite.
 
 ## To run project
 ```bash
-#store.js
 #Navigate to \\iGSE-UI\\
 #install dependencies
 npm install
@@ -17,3 +16,14 @@ npm install
 npm run dev
 
 ```
+
+## Dependencies
+- svelte
+- vite
+- svelte-spa-router
+- DaisyUI
+- tailwindcss
+- yup
+- svelte-yup
+- html5-qrcode
+- svelte-fusioncharts
