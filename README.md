@@ -9,11 +9,11 @@ The project was created using Svelte + Vite.
 
 ## To run project
 ```bash
-// store.js
-// Navigate to \\iGSE-UI\\
-// install dependencies
+#store.js
+#Navigate to \\iGSE-UI\\
+#install dependencies
 npm install
-// start server
+#start server
 npm run dev
 
 ```
