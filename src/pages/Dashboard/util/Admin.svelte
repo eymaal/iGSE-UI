@@ -72,7 +72,7 @@
 <AdminNav/>
 <div class="drawer drawer-mobile mt-16 overflow-hidden">
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content flex flex-col items-center justify-center lg:ml-80">
+    <div class="drawer-content block items-center justify-center lg:ml-80">
         <!-- Page content here -->
         <div class="flex flex-col gap-2 min-h-screen items-center justify-center mt-16">
             <AdminStat/>

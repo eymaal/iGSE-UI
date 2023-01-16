@@ -26,7 +26,7 @@
 
 {#if readings.length>0}
     <div class="overflow-x-auto span-all-columns w-full flex justify-center">
-      <table class="table table-compact w-full">
+      <table class="table table-compact w-full m-3">
         <thead>
           <tr>
             <th></th>
