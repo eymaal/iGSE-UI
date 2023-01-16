@@ -5,6 +5,7 @@
     import Footer from "./Footer.svelte";
     import { push } from 'svelte-spa-router';
     import { onMount } from "svelte";
+    import AdminGraph from "./AdminGraph.svelte";
 
     let rates = [], rates_backup = [];
     let customer_id;
@@ -75,6 +76,9 @@
         <!-- Page content here -->
         <div class="flex flex-col gap-2 min-h-screen items-center justify-center mt-16">
             <AdminStat/>
+
+            <AdminGraph/>
+            
             <AdminReading/>
         </div>
         <Footer/>
@@ -87,7 +91,7 @@
         <ul class="menu p-4 w-80 bg-base-100 text-base-content">
             <!-- Sidebar content here -->
             <li><a  class ="p-0"><label for="my-modal-6" class="h-full w-full pr-4 pl-4 pt-3 pb-3 cursor-pointer">Set Unit Rates</label></a></li>
-            <li><a>Sidebar Item 2</a></li>
+            <!-- <li><a>Sidebar Item 2</a></li> -->
         </ul>
     
     </div>
