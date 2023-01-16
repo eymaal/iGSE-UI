@@ -147,7 +147,7 @@
         </button>   
         <!-- svelte-ignore a11y-media-has-caption -->
         <reader id="reader" class="flex justify-center"/>
-        <div class = "hero-content flex flex-col">
+        <div class = "hero-content flex flex-col w-full border-opacity-50">
             <button class="btn btn-circle btn-outline btn-md hidden lg:flex" on:click={close}>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
             </button> 
@@ -156,7 +156,7 @@
             {:else}
                 <button class="btn btn-primary" on:click={start}>Start Scanning</button>
             {/if}
-            <div class="divider divider-horizontal">OR</div>
+            <div class="divider">OR</div>
             <div class="form-control">
                 <div class="input-group">
                   <input type="text" placeholder="Enter 8 digit code" class={inputClass} id="EVC_code" bind:value={EVC_code}/>
